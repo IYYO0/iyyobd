@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #222831;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: #fff;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FFD700;
+            animation: fadeIn 2s ease-out;
+            z-index: 3; /* Mengatur z-index lebih tinggi */
+        }
+
+        p {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeIn 2.5s ease-out;
+            z-index: 3; /* Mengatur z-index lebih tinggi */
+        }
+
+        .age {
+            font-size: 4rem;
+            font-weight: 600;
+            color: #76ABAE;
+            animation: pulse 1.5s infinite;
+            z-index: 3; /* Mengatur z-index lebih tinggi */
+        }
+
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 90px;
+            background-color: #FF5733;
+            border-radius: 50% 50% 5% 5%; /* Bentuk balon */
+            bottom: -100px; /* Mulai dari bawah */
+            animation: rise linear infinite; /* Animasi naik yang konstan */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 30px;
+            background-color: #333; /* Warna tali balon */
+            left: 50%;
+            bottom: -30px; /* Posisi tali balon */
+            transform: translateX(-50%);
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0); /* Mulai dari bawah */
+            }
+            100% {
+                transform: translateY(-100vh); /* Naik hingga keluar dari layar */
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Button Styling */
+        .btn-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #76ABAE;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            animation: fadeIn 3s ease-out;
+            transition: background-color 0.3s ease;
+            z-index: 3; /* Supaya button berada di atas balon */
+        }
+
+        .btn-home:hover {
+            background-color: #FFD700;
+        }
+
+        .content {
+            position: relative;
+            z-index: 3; /* Mengatur z-index lebih tinggi */
+            text-align: center; /* Rata tengah untuk konten */
+        }
+
+        /* Media Queries untuk Responsif */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem; /* Ukuran font lebih kecil untuk mobile */
+            }
+            p {
+                font-size: 1.2rem; /* Ukuran font lebih kecil untuk mobile */
+            }
+            .age {
+                font-size: 3rem; /* Ukuran font lebih kecil untuk mobile */
+            }
+            .btn-home {
+                padding: 8px 16px; /* Padding lebih kecil untuk mobile */
+                font-size: 1rem; /* Ukuran font lebih kecil untuk mobile */
+            }
+            .balloon {
+                width: 50px; /* Lebar balon lebih kecil untuk mobile */
+                height: 70px; /* Tinggi balon lebih kecil untuk mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="balloons" id="balloonContainer"></div> <!-- Container untuk balon -->
+
+    <div class="content">
+        <h1>🎊Selamat Ulang Tahun!🎊</h1>
+        <p>Umurmu sekarang adalah <span id="age" class="age"></span> tahun.</p>
+        <a href="formisi.html" class="btn-home">Kembali ke Halaman Utama</a>
+    </div>
+    <audio id="birthdaySong" src="happy-birthday-jazz-171120.mp3" autoplay loop></audio>
+
+    <script>
+        // Fungsi untuk menghasilkan balon
+        function createBalloons() {
+            const balloonContainer = document.getElementById('balloonContainer');
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FFC300', '#FF33A8', '#33FFF6', '#F9FF33', '#A833FF', '#FF8533'];
+
+            for (let i = 0; i < 20; i++) { // Menambahkan 20 balon untuk lebih banyak variasi
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.left = `${Math.random() * 100}vw`; // Posisi acak dari kiri
+                balloon.style.animationDuration = `${Math.random() * 3 + 3}s`; // Durasi acak antara 3s dan 6s
+                balloon.style.animationDelay = `${Math.random() * 5}s`; // Penundaan acak antara 0s dan 5s
+                balloonContainer.appendChild(balloon);
+            }
+        }
+
+        // Memanggil fungsi untuk membuat balon
+        createBalloons();
+
+        // Ambil umur dari localStorage
+        const age = localStorage.getItem('age');
+        document.getElementById('age').textContent = age;
+
+        const birthdaySong = document.getElementById('birthdaySong');
+        birthdaySong.volume = 0.5; // Mengatur volume (0.0 hingga 1.0)
+    </script>
+
+</body>
+</html>
